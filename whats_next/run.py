@@ -66,7 +66,9 @@ class LanguageScanner(object):
             for line in in_file:
                 match_obj = re.match(todo_grammar, line)
                 if match_obj is not None:
-                    yield Task(match_obj.group(1), filename)
+                    task_text = match_obj.group(1).strip()
+                    if task_text:
+                        yield Task(task_text, filename)
 
     def scan_for_tasks(self, file_exts, todo_grammar, start_dir=None, level=1):
         """ Scanning the current working directory for files that match the
@@ -145,10 +147,15 @@ class LanguageScanner(object):
 
         if do_std_out_print:
             logger.debug("Outputting tasks to stdout...")
-            print()
-            for task in tasks:
-                print(str(task))
-            print()
+
+            if tasks:
+                print()
+                for task in tasks:
+                    print(str(task))
+                print()
+            else:
+                logger.debug("No tasks found!")
+
             logger.debug("Done")
         else:
             logger.debug("Outputting tasks to %s...", LanguageScanner.OUTPUT_FILE)
