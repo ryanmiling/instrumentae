@@ -3,7 +3,7 @@
 
 from __future__ import print_function
 
-from collections import namedtuple
+from collections import defaultdict, namedtuple
 
 import argparse
 import languages
@@ -21,12 +21,17 @@ logger.setLevel(logging.INFO)
 
 class Task(object):
     """ Represents a TODO task """
-    def __init__(self, text, filename):
+    def __init__(self, text, filename=None):
         self.text = text
         self.filename = filename
 
     def __str__(self):
-        return "[ ] {} ({})".format(self.text, self.filename)
+        if self.filename is not None:
+            fmted_txt = "[ ] {} ({})".format(self.text, self.filename)
+        else:
+            fmted_txt  = "[ ] {}".format(self.text)
+
+        return fmted_txt
 
 
 class LanguageScanner(object):
@@ -62,13 +67,26 @@ class LanguageScanner(object):
         :returns: Generator of Tasks with relevant fields
         :rtype: generator<Task>
         """
+
+        task_dict = defaultdict(list)
+
         with open(filename_path, "rb") as in_file:
             for line in in_file:
                 match_obj = re.match(todo_grammar, line)
                 if match_obj is not None:
                     task_text = match_obj.group(1).strip()
                     if task_text:
-                        yield Task(task_text, filename)
+                        task_dict[filename].append(task_text)
+
+        if len(task_dict) == 1: # all in one file
+            print("All tasks are defined inside {}".format(task_dict.keys()[0]))
+            for task_text in task_dict.values()[0]:
+                yield Task(task_text)
+        else:
+            for filename, task_texts in task_dict.values():
+                for task_text in task_texts:
+                    yield Task(filename, task_text)
+
 
     def scan_for_tasks(self, file_exts, todo_grammar, start_dir=None, level=1):
         """ Scanning the current working directory for files that match the
@@ -149,7 +167,6 @@ class LanguageScanner(object):
             logger.debug("Outputting tasks to stdout...")
 
             if tasks:
-                print()
                 for task in tasks:
                     print(str(task))
                 print()
