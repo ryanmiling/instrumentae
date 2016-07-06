@@ -115,18 +115,20 @@ def create_pull_request(access_token):
     ###########
     # COMMENTS
     ###########
-    body = prompt("Enter any comments", allow_empty=True)
+    body = prompt("Enter a body message (optional)", allow_empty=True)
     if body:
         params["body"] = body
 
-    res = requests.post(url, headers=headers, params=params).json()
-    print("URL={}".format(url))
-    print("Headers={}".format(headers))
-    print("Params={}".format(params))
-    import pdb
-    pdb.set_trace()
-    print("View your PR at {}".format(res["html_url"]))
-
+    res = requests.post(url, headers=headers, json=params).json()
+    if res["errors"]:
+        for error in res["errors"]:
+            print("\nERROR! {}\n".format(error))
+        print("Some common mistakes:")
+        print("  [ ] Did you make sure to push your branch?")
+        print("  [ ] Are there any commits on this branch?")
+    else:
+        print("View your PR at {}".format(res["html_url"]))
+        print("Don't forget to assign and add labels!")
 
 
 def main():
