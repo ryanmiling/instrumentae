@@ -8,6 +8,10 @@ import subprocess
 COMMIT_BRANCH = "master"
 DOT_FILE_DIRS = ("conf",)
 
+# XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
+# Not sure if this even works anymore, requires a rebuild
+# XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX XXX
+
 def main():
     """ Scans each dot-file dir's files for any changes and commits them to the repo.
         Assumes that each dot-file is in the user's home directory.
