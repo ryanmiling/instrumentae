@@ -120,14 +120,14 @@ def create_pull_request(access_token):
         params["body"] = body
 
     res = requests.post(url, headers=headers, json=params).json()
-    if "errors" in res:
+    if res["errors"]:
         for error in res["errors"]:
             print("\nERROR! {}\n".format(error))
         print("Some common mistakes:")
         print("  [ ] Did you make sure to push your branch?")
         print("  [ ] Are there any commits on this branch?")
     else:
-        print("\nView your PR at {}".format(res["html_url"]))
+        print("View your PR at {}".format(res["html_url"]))
         print("Don't forget to assign and add labels!")
 
 
