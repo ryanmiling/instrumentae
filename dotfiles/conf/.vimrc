@@ -29,6 +29,7 @@ set hlsearch
 set incsearch
 set nobackup
 set nowritebackup
+set ruler
 set shiftwidth=4
 set smartcase
 set softtabstop=4
