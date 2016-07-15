@@ -8,7 +8,6 @@
 """
 
 from abc import ABCMeta, abstractmethod
-from configparse import decrypt_token
 
 import datetime
 import gdata.gauth
@@ -20,7 +19,19 @@ import os
 import requests
 import time
 
-import settings
+
+# NOTE Store this encrypted somewhere, e.g. in a Django app's settings.py file
+#      If on a secure machine you can hard-code the values here, but make sure not to share it!
+settings = {           'GCLIENT_ID': 'xxxxxxxxxx',
+                   'GCLIENT_SECRET': 'xxxxxxxxxx',
+             'GDRIVE_REFRESH_TOKEN': 'xxxxxxxxxx',
+            'GSHEETS_REFRESH_TOKEN': 'xxxxxxxxxx'
+           }
+
+# NOTE Write this function to your liking, keep the encryption key locked down and not checked in
+def decrypt_token(token):
+    return token
+
 
 TOKENS_FILE = os.path.join(os.path.dirname(__file__),"gauth_tokens.json")
 
@@ -45,8 +56,8 @@ class GClient(object):
             raise Exception('GClient class cannot be instantiated alone. ' +
                             'Instantiate a subclass for a specific API.')
 
-        self._client_id = decrypt_token(settings.GCLIENT_ID)
-        self._client_secret = decrypt_token(settings.GCLIENT_SECRET)
+        self._client_id = decrypt_token(settings['GCLIENT_ID'])
+        self._client_secret = decrypt_token(settings['GCLIENT_SECRET'])
 
         self._access_token = None
         self._expiry_from_epoch = None # datetime of token expiration
@@ -176,7 +187,7 @@ class GDriveClient(GClient):
 
     def __init__(self, *args, **kwargs):
         super(GDriveClient, self).__init__(*args, **kwargs)
-        self._refresh_token = decrypt_token(settings.GDRIVE_REFRESH_TOKEN)
+        self._refresh_token = decrypt_token(settings['GDRIVE_REFRESH_TOKEN'])
 
     def __build_request_headers(self, data=None):
         """ Builds the headers we'll include in a request to Google's API
@@ -257,7 +268,7 @@ class GSheetClient(GClient):
     def __init__(self, *args, **kwargs):
         super(GSheetClient, self).__init__(*args, **kwargs)
         self.__client = None
-        self._refresh_token = decrypt_token(settings.GSHEETS_REFRESH_TOKEN)
+        self._refresh_token = decrypt_token(settings['GSHEETS_REFRESH_TOKEN'])
 
     @property
     def client(self):
