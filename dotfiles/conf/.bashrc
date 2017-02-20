@@ -116,7 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# git-autocompletion
-if [ -f ~/.git-completion.bash ]; then
-    source ~/.git-completion.bash
-fi
+# virtualenv config
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh

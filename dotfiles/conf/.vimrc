@@ -8,16 +8,17 @@
 "
 "--------------------------------------------------------------------------
 
-command! TEOL %s/[ ]\+$//g
+command! TEOL %s/[\t ]\+$//g
 command! W w
 command! Q q
 
 filetype indent plugin on
+filetype plugin on
 
 imap <C-a> <Home>
 imap <C-e> <End>
 
-syntax match Error /\s\+$/
+match Error /\s\+$/
 
 nmap <Enter> o<Esc>k
 
@@ -29,7 +30,6 @@ set hlsearch
 set incsearch
 set nobackup
 set nowritebackup
-set ruler
 set shiftwidth=4
 set smartcase
 set softtabstop=4
