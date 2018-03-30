@@ -15,21 +15,24 @@ command! Q q
 filetype indent plugin on
 filetype plugin on
 
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
 imap <C-a> <Home>
 imap <C-e> <End>
-
-match Error /\s\+$/
 
 nmap <Enter> o<Esc>k
 
 noremap - <C-z>
 
+set backspace=indent,eol,start
 set expandtab
 set history=200
 set hlsearch
 set incsearch
 set nobackup
 set nowritebackup
+set ruler
 set shiftwidth=4
 set smartcase
 set softtabstop=4

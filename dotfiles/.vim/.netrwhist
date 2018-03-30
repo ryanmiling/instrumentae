@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/Users/ryanmiling/Development/unsupervised-main/APP/app'
+let g:netrw_dirhist_2='/Users/ryanmiling/.virtualenvs/unsupervised-main/lib/python2.7/site-packages/django/middleware'
+let g:netrw_dirhist_3='/usr/local/var/mongodb'
+let g:netrw_dirhist_4='/Users/ryanmiling/Development/unsupervised-main/webui/models'
+let g:netrw_dirhist_5='/Users/ryanmiling/.virtualenvs/unsupervised-main/lib/python2.7/site-packages/django/views/decorators'
+let g:netrw_dirhist_6='/Users/ryanmiling/.virtualenvs/unsupervised-main/lib/python2.7/site-packages/mongoengine/queryset'
+let g:netrw_dirhist_7='/Users/ryanmiling/Development/unsupervised-main/tests/services'
+let g:netrw_dirhist_8='/Users/ryanmiling/.virtualenvs/unsupervised-main/lib/python2.7/site-packages/django/middleware'
